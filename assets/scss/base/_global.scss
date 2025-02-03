@@ -5,6 +5,9 @@ body {
 .container {
     max-width: 1152px;
     margin: auto;
+    @include mobile() {
+        padding: 0 14px;
+    }
 }
 a {
     text-decoration: none;
@@ -101,4 +104,21 @@ button {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 9998;
+}
+
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 100px;   
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;                 
+    button {
+        margin-top: 10px;
+        padding: 5px 10px;
+    }
 }

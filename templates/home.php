@@ -6,6 +6,7 @@ get_header();
 ?>
 <!--Main Content-->
 <?php
+// Variables
 $banner_fields = get_field('banner_fields');
 $banner_url = $banner_fields['banner'];
 ?>
@@ -38,8 +39,13 @@ $banner_url = $banner_fields['banner'];
                         <img src = "<?php echo get_the_post_thumbnail_url(); ?>" class = "post-img">
                         <div><strong><?php echo "By " . get_the_author(); ?></strong></div>
                         <strong><span><?php echo get_the_date(); ?></span><span><?php echo " " . get_the_time('g:i A'); ?></span></strong>
-                        <p><?php echo get_the_title(); ?></p>
-                        <p><?php echo get_the_content(); ?></p>
+                        <h3><?php echo get_the_title(); ?></h3>
+                        <?php
+                            $content_of_the_post = get_the_content();
+                            $content_new = explode(' ', $content_of_the_post);
+                            $content_trimmed_version = implode(' ', array_slice($content_new, 0, 50));
+                        ?>
+                        <a href = "<?php echo get_post_permalink(); ?>"><?php echo $content_trimmed_version; ?>... Read More</a>
                 </div>
             <?php endwhile; ?>
             <?php wp_reset_postdata(); ?>

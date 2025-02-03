@@ -9,10 +9,14 @@ if (have_posts()) {
         <div class="container">
             <!--Post-->
             <article>
-                <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="image-of-post">
-                <?php echo get_the_date('F j, Y'); ?>
-                <?php echo get_the_time('g:i A'); ?>
-                <?php echo get_the_author(); ?>
+                <div class="post-featured-image">
+                    <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="image-of-post">
+                </div>
+                <strong>
+                    <?php echo "By " . get_the_author() . ","?>
+                    <?php echo get_the_date('F j, Y'); ?>
+                    <?php echo get_the_time('g:i A'); ?>
+                </strong>
                 <h2><?php echo get_the_title(); ?></h2>
                 <p><?php echo get_the_content(); ?></p>
             </article>

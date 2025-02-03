@@ -53,12 +53,22 @@ function handle_custom_registration() {
             wp_set_current_user($user_id);
             wp_set_auth_cookie($user_id);
 
+            if ($user) {
+                $subject = 'Registration Successfull.';
+                $message = "Dear $name,\n\nYour have successfully registered with Expression. Now you can start using it to get your feelings and thoughts out in the World. \n\nRegards,\nExpression";
+                $headers = ['Content-Type: text/plain; charset=UTF-8'];
+
+                wp_mail($email, $subject, $message, $headers);
+            }
+
             // Redirect or show success message
-            wp_redirect(home_url()); // Redirect to home page after success
-            exit();
+            wp_redirect(home_url('/?registration=success')); // Redirect to homepage with success message
+            exit;
         } else {
             // Error handling
             echo 'Error: Unable to create user';
+            wp_redirect(home_url('/?registration=failed')); // Redirect with error
+            exit;
         }
     }
 }
@@ -132,3 +142,54 @@ function handle_login_query_var($query_vars) {
     return $query_vars;
 }
 add_filter('query_vars', 'handle_login_query_var');
+
+// Email on Post Publish
+function send_email_on_publish_blogging_expression($post_ID) {
+    // Get the post object
+    $post = get_post($post_ID);
+
+    // Check if the post is of type 'blogging-expression'
+    if ($post->post_type !== 'blogging-expression') {
+        return;
+    }
+
+    // Check if it's a new post (not an update)
+    if ($post->post_date === $post->post_modified) {
+        $user = wp_get_current_user();
+        $subject = 'Your Blog Post has been Published';
+        $message = 'Hello ' . $user->user_login . ', congratulations! Your blog post titled "' . $post->post_title . '" has been published!';
+
+        $to = $user->user_email;
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail($to, $subject, $message, $headers);
+    }
+    // else {
+    //     $user = wp_get_current_user();
+    //     $subject = 'Your Blog Post has been Updated';
+    //     $message = 'Hello ' . $user->user_login . ', your blog post titled "' . $post->post_title . '" has been updated!';
+
+    //     // Send the email
+    //     $to = $user->user_email;
+    //     $headers = array('Content-Type: text/html; charset=UTF-8');
+    //     wp_mail($to, $subject, $message, $headers);
+    // }
+}
+add_action('publish_blogging-expression', 'send_email_on_publish_blogging_expression');
+
+function send_email_on_delete_blogging_expression($post_ID) {
+    $post = get_post($post_ID);
+    if ($post->post_type !== 'blogging-expression') {
+        return;
+    }
+    $user = wp_get_current_user();
+    // Send an email when the post is deleted
+    $subject = 'Your Blog Post has been Deleted';
+    $message = 'Hello ' . $user->user_login . ', Your blog post titled "' . $post->post_title . '" is deleted.';
+
+    // Send the email
+    $to = $user->user_email;
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    wp_mail($to, $subject, $message, $headers);
+}
+
+add_action('before_delete_post', 'send_email_on_delete_blogging_expression');
