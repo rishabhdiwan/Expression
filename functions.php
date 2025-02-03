@@ -143,7 +143,7 @@ function handle_login_query_var($query_vars) {
 }
 add_filter('query_vars', 'handle_login_query_var');
 
-// Email on Post Publish
+// Email on Post Publish, Deletion
 function send_email_on_publish_blogging_expression($post_ID) {
     // Get the post object
     $post = get_post($post_ID);
@@ -163,7 +163,7 @@ function send_email_on_publish_blogging_expression($post_ID) {
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $message, $headers);
     }
-    
+
 }
 add_action('publish_blogging-expression', 'send_email_on_publish_blogging_expression');
 
@@ -184,3 +184,39 @@ function send_email_on_delete_blogging_expression($post_ID) {
 }
 
 add_action('before_delete_post', 'send_email_on_delete_blogging_expression');
+
+function validate_blogging_expression_submission() {
+    global $post;
+    if ($post->post_type !== 'blogging-expression') return;
+
+    ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Find the Publish/Update button
+            let publishButton = document.querySelector("#publish");
+
+            if (publishButton) {
+                publishButton.addEventListener("click", function(event) {
+                    // Get the values from the editor
+                    let title = document.getElementById("title").value.trim();
+                    let content = document.querySelector("#content").value.trim();
+                    let featuredImage = document.querySelector("#set-post-thumbnail img"); // Featured Image Check
+
+                    // Check if fields are missing
+                    let missingFields = [];
+                    if (!title) missingFields.push("Title");
+                    if (!content) missingFields.push("Content");
+                    if (!featuredImage) missingFields.push("Featured Image");
+
+                    // If any field is missing, prevent submission
+                    if (missingFields.length > 0) {
+                        event.preventDefault(); // Stop form submission
+                        alert("Please add the following required fields before publishing: " + missingFields.join(", "));
+                    }
+                });
+            }
+        });
+    </script>
+    <?php
+}
+add_action('admin_footer', 'validate_blogging_expression_submission');
