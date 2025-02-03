@@ -163,16 +163,7 @@ function send_email_on_publish_blogging_expression($post_ID) {
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $message, $headers);
     }
-    // else {
-    //     $user = wp_get_current_user();
-    //     $subject = 'Your Blog Post has been Updated';
-    //     $message = 'Hello ' . $user->user_login . ', your blog post titled "' . $post->post_title . '" has been updated!';
-
-    //     // Send the email
-    //     $to = $user->user_email;
-    //     $headers = array('Content-Type: text/html; charset=UTF-8');
-    //     wp_mail($to, $subject, $message, $headers);
-    // }
+    
 }
 add_action('publish_blogging-expression', 'send_email_on_publish_blogging_expression');
 

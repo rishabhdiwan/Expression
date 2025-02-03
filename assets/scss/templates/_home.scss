@@ -1,11 +1,15 @@
 .title-of-the-page {
-    background-color: orange;
+    background-color: $orange;
     padding: 15px 0;
     h2 {
         margin: 0;
     }
     .header-content {
         @include flexbox();
+        h2 a {
+            color: $white;
+            text-transform: uppercase;
+        }
     }
 }
 .banner-wrapper {
@@ -21,25 +25,16 @@
         transform: translate(-50%, -50%);
         text-align: center;
     }
-    // .overlay {
-    //     position: absolute;
-    //     top: 0;
-    //     left: 0;
-    //     right: 0;
-    //     bottom: 0;
-    //     background-color: rgba(0, 0, 0, 0);
-    //     z-index: 1;
-    // }
 }
 .cards {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    @include flexbox();
+    margin: 5rem 0;
     .card {
-        flex: 0 0 28%;
+        flex: 0 0 30%;
         padding: 10px;
         box-shadow: 0px 2px 4px 0px $dark-gray;
         margin: 0 0 35px 0;
+        box-sizing: border-box;
         @include mobile() {
             flex: 0 0 100%;
         }
@@ -54,6 +49,12 @@
         h3 {
             margin: 0.5rem 0 0 0;
             line-height: 30px;
+        }
+        .read-more {
+            color: $orange;
+        }
+        .read-more:hover {
+            color: $red-orange;
         }
     }
 }

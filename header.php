@@ -20,6 +20,10 @@
                             <!--Login and Register Buttons-->
                             <button id="loginButton">Login</button>
                             <button id="registerButton">Register</button>
+                        <?php else : ?>
+                            <a href="<?php echo wp_logout_url(home_url()); ?>">
+                                <button id="logoutButton">Logout</button>
+                            </a>
                         <?php endif; ?>
                     </div>
                 </div>
