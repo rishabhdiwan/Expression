@@ -189,38 +189,48 @@ function send_email_on_delete_blogging_expression($post_ID) {
 add_action('before_delete_post', 'send_email_on_delete_blogging_expression');
 
 function validate_blogging_expression_submission() {
-    global $post;
-    if ($post->post_type !== 'blogging-expression') {
-        return;        
+    // Get the current screen
+    $screen = get_current_screen();
+
+    // Check if we are editing a post and if it's of type 'blogging-expression'
+    if ($screen && $screen->base === 'post' && $screen->post_type === 'blogging-expression') {
+        ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Find the Publish/Update button
+                let publishButton = document.querySelector("#publish");
+
+                if (publishButton) {
+                    publishButton.addEventListener("click", function(event) {
+                        // Get the values from the editor
+                        let title = document.getElementById("title").value.trim();
+                        let content = document.querySelector("#content").value.trim();
+                        let featuredImage = document.querySelector("#set-post-thumbnail img"); // Featured Image Check
+
+                        // Check if fields are missing
+                        let missingFields = [];
+                        if (!title) missingFields.push("Title");
+                        if (!content) missingFields.push("Content");
+                        if (!featuredImage) missingFields.push("Featured Image");
+
+                        // If any field is missing, prevent submission
+                        if (missingFields.length > 0) {
+                            event.preventDefault(); // Stop form submission
+                            alert("Please add the following required fields before publishing: " + missingFields.join(", "));
+                        }
+                    });
+                }
+            });
+        </script>
+        <?php
     }
-    ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Find the Publish/Update button
-            let publishButton = document.querySelector("#publish");
-
-            if (publishButton) {
-                publishButton.addEventListener("click", function(event) {
-                    // Get the values from the editor
-                    let title = document.getElementById("title").value.trim();
-                    let content = document.querySelector("#content").value.trim();
-                    let featuredImage = document.querySelector("#set-post-thumbnail img"); // Featured Image Check
-
-                    // Check if fields are missing
-                    let missingFields = [];
-                    if (!title) missingFields.push("Title");
-                    if (!content) missingFields.push("Content");
-                    if (!featuredImage) missingFields.push("Featured Image");
-
-                    // If any field is missing, prevent submission
-                    if (missingFields.length > 0) {
-                        event.preventDefault(); // Stop form submission
-                        alert("Please add the following required fields before publishing: " + missingFields.join(", "));
-                    }
-                });
-            }
-        });
-    </script>
-    <?php
 }
 add_action('admin_footer', 'validate_blogging_expression_submission');
+
+function redirect_non_admin_users() {
+    if (is_admin() && !current_user_can('administrator') && !wp_doing_ajax()) {
+        wp_redirect(home_url('/user-dashboard'));
+        exit;
+    }
+}
+add_action('init', 'redirect_non_admin_users');

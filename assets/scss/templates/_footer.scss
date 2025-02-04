@@ -19,26 +19,34 @@
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 9999;
+    border-radius: 8px;
+    h2 {
+        text-align: center;
+    }
     .close-btn {
         position: fixed;
-        top: 10px;
-        right: 10px;
-        font-size: 24px;
-        padding: 2px 8px;
+        top: 0;
+        right: 0;
+        font-size: 30px;
         background: none;
-        border: none;
         color: $dark-charcoal;
         cursor: pointer;
+        border-radius: 0 8px 0 0;
     }
     .close-btn:hover {
         background-color: $mostly-pure-red;
         color: $white;
     }
     .register-link {
-        color: $red-orange;
+        color: $orange;
     }
     .register-link:hover {
         color: $mostly-pure-red
+    }
+    .login-register-forms {
+        width: 100%;
+        padding: 8px 0;
+        margin: 0.5rem 0;
     }
 }
 .popup-notify {

@@ -1,4 +1,11 @@
 .author-page {
+    .author-info {
+        h2 {
+            font-family: $dancing_script_bold;
+            font-size: 40px;
+            text-transform: capitalize;
+        }
+    }
     .cards {
         margin: 0;
     }
