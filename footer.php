@@ -18,10 +18,11 @@
             <button type="button" class="close-btn" onclick="toggleForm('register')">&times;</button>
             <h3>Register to publish your Blogs</h3>
             <form id="registerForm" method="post" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
-                <input type="text" name="name" id="name" placeholder="Enter your Name" required>
+                <input type="text" name="firstname" id="firstname" placeholder="Enter your First Name" required>
+                <input type="text" name="lastname" id="lastname" placeholder="Enter your Last Name" required>
                 <input type="email" id="email" name="user_email" placeholder="Enter your Email" required>
                 <input type="text" id="phone" name="user_phone" placeholder="Enter your Phone Number" required>
-                <input type="text" id="username" name="user_login" placeholder="Choose a Username" required>
+                <input type="text" id="username" name="user_login" placeholder="Enter a Username" required>
                 <input type="password" name="password" id="password" placeholder="Enter your Password" required>
                 <input type="submit" value="Register">
             </form>

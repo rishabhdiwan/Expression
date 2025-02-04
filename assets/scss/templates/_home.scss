@@ -1,22 +1,8 @@
-.title-of-the-page {
-    background-color: $orange;
-    padding: 15px 0;
-    h2 {
-        margin: 0;
-    }
-    .header-content {
-        @include flexbox();
-        h2 a {
-            color: $white;
-            text-transform: uppercase;
-        }
-    }
-}
 .banner-wrapper {
     position: relative;
     .banner {
         width: 100%;   
-        height: 100%;
+        height: calc(100vh - 66px);
     }
     .banner-content {
         position: absolute;
@@ -24,6 +10,9 @@
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
+        button {
+            margin: 2rem 0;
+        }
     }
 }
 @include cards();

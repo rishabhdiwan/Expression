@@ -1,16 +1,38 @@
 <?php get_header(); ?>
+<!-- Banner -->
+<div class="banner-wrapper">
+    <img src="/wp-content/themes/expression/assets/images/banner.jpg" alt="banner" class = "author-banner">
+    <div class = "banner-content">
+        <h2 class = "author-name">
+            <?php
+            // Get author data
+            $author = get_queried_object();
+            echo esc_html($author->display_name);
+            ?>
+        </h2>
+    </div>
+</div>
+<!-- Main Content -->
 <div class="container">
-    <main class="author-page">
-        <?php
-        // Get author data
-        $author = get_queried_object();
-        ?>
-        
+    <div class="author-basic-details">
+        <div class="image-of-author">
+            <?php 
+                $author_bio = get_the_author_meta('description', $author->ID);
+                $author_image = get_field('author_image');
+                if (!empty($author_image) && !empty($author_bio)) :
+            ?>
+            <img src="<?php echo $author_image; ?>" alt="author-img">
+        </div>
+        <div class="bio">
+            <h3><?php echo esc_html($author->display_name); ?></h3>
+            <p><?php echo esc_html($author_bio); ?></p>
+        </div>
+        <?php endif; ?>
+    </div>
+    <main class="author-page">        
         <section class="author-info">
-            <h1>Posts by <?php echo esc_html($author->display_name); ?></h1>
-            <p><?php echo esc_html(get_the_author_meta('description', $author->ID)); ?></p>
-        </section>
-    
+            <h2>Articles Posted by <?php echo esc_html($author->display_name); ?></h2>
+        </section>    
         <section class="author-posts">
             <?php
             $args = array(
@@ -20,32 +42,9 @@
             );
             $query = new WP_Query($args);
             ?>
-            <?php if ($query->have_posts()) : ?>
-                <div class="cards">
-                    <?php while ($query->have_posts()) : ?>
-                        <div class="card">
-                            <?php $query->the_post(); ?>
-                            <article class="post">
-                                <a href="<?php echo get_post_permalink(); ?>"><img src = "<?php echo get_the_post_thumbnail_url(); ?>" class = "post-img"></a>
-                                <strong><span><?php echo get_the_date(); ?></span><span><?php echo " " . get_the_time('g:i A'); ?></span></strong>
-                                <a href="<?php echo get_post_permalink(); ?>"><h3><?php echo get_the_title(); ?></h3></a>
-                                <?php
-                                    $content_of_the_post = get_the_content();
-                                    $words_in_content_of_the_post =  str_word_count($content_of_the_post);
-                                    $content_new = explode(' ', $content_of_the_post);
-                                    $content_trimmed_version = implode(' ', array_slice($content_new, 0, 50));
-                                ?>
-                                <?php if ($words_in_content_of_the_post > 60) : ?>
-                                    <a href = "<?php echo get_post_permalink(); ?>"><?php echo $content_trimmed_version; ?><span class="read-more">... Read More</span></a>
-                                <?php else : ?>
-                                    <a href = "<?php echo get_post_permalink(); ?>"><?php echo $content_of_the_post ?></a>
-                                <?php endif; ?> 
-                            </article>
-                        </div>
-                    <?php endwhile; ?>
-                </div>
-                <?php wp_reset_postdata(); ?>
-                <?php else : ?>
+            <?php if ($query->have_posts()) :
+                include 'templates/components/blog-cards.php';
+                else : ?>
                     <?php echo "<p>No posts by this author yet.</p>"; ?>
             <?php endif; ?>
         </section>

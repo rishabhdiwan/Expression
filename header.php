@@ -13,7 +13,7 @@
             <div class="container">
                 <div class="header-content">
                     <div>
-                        <h2><a href = "<?php echo get_home_url(); ?>">Expression</a></h2>
+                        <h4><a href = "<?php echo get_home_url(); ?>">Expression</a></h4>
                     </div>
                     <div class="buttons-for-login-and-signup">
                         <?php if (!is_user_logged_in()) : ?>

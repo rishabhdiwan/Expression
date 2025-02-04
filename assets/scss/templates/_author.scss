@@ -1,0 +1,21 @@
+.author-page {
+    .cards {
+        margin: 0;
+    }
+}
+.author-name {
+    text-transform: capitalize;
+}
+.author-banner {
+    width: 100%;
+    height: 200px;
+}
+.author-basic-details {
+    @include flexbox();
+    align-items: center;
+    justify-content: flex-start;
+    .bio {
+        flex: 0 0 70%;
+        margin-left: 2rem;
+    }
+}

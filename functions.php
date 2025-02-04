@@ -25,7 +25,8 @@ function handle_custom_registration() {
         $username = sanitize_text_field($_POST['user_login']);
         $email = sanitize_email($_POST['user_email']);
         $password = sanitize_text_field($_POST['password']);
-        $name = sanitize_text_field($_POST['name']);
+        $firstname = sanitize_text_field($_POST['firstname']);
+        $lastname = sanitize_text_field($_POST['lastname']);
         $phone = sanitize_text_field($_POST['user_phone']);
 
         // Check if username or email already exists
@@ -41,8 +42,10 @@ function handle_custom_registration() {
             // Update additional user meta (like Name and Phone)
             wp_update_user(array(
                 'ID' => $user_id,
-                'display_name' => $name
+                'display_name' => $firstname
             ));
+            update_user_meta($user_id, 'first_name', $firstname);
+            update_user_meta($user_id, 'last_name', $lastname);
             update_user_meta($user_id, 'phone', $phone);
 
             // Set the user role to Author
@@ -54,7 +57,7 @@ function handle_custom_registration() {
             wp_set_auth_cookie($user_id);
 
             if ($user) {
-                $subject = 'Registration Successfull.';
+                $subject = 'Registration Successful.';
                 $message = "Dear $name,\n\nYour have successfully registered with Expression. Now you can start using it to get your feelings and thoughts out in the World. \n\nRegards,\nExpression";
                 $headers = ['Content-Type: text/plain; charset=UTF-8'];
 
@@ -187,8 +190,9 @@ add_action('before_delete_post', 'send_email_on_delete_blogging_expression');
 
 function validate_blogging_expression_submission() {
     global $post;
-    if ($post->post_type !== 'blogging-expression') return;
-
+    if ($post->post_type !== 'blogging-expression') {
+        return;        
+    }
     ?>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

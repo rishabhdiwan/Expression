@@ -1,0 +1,14 @@
+.title-of-the-page {
+    background-color: $orange;
+    padding: 15px 0;
+    .header-content {
+        @include flexbox();
+        h4 {
+            margin: 0;
+            a {
+                color: $white;
+                text-transform: uppercase;
+            }
+        }
+    }
+}
