@@ -1,9 +1,35 @@
-.custom-image-upload {
-    cursor: pointer;
+.post-submission {
+    font-weight: bold;
+    color: $yellowgreen;
+    border: 2px solid $yellowgreen;
+    padding: 5px;
 }
-.user-dashboard-form-submit {
-    display: block;
-    width: 100%;
-    padding: 8px 0;
-    margin: 1rem 0;
+.dashboard-user {
+    @include flexbox();
+    justify-content: flex-start;
+    .dashboard-sidebar {
+        background-color: $black;
+        flex: 0 0 20%;
+        flex: 0 0 13%;
+        color: $white;
+        padding: 0 17px;
+    }
+    .dashboard-post-publication-form {
+        margin-left: 5rem;
+        textarea {
+            height: 200px;
+        }
+        h6 {
+            margin: 0.5rem 0;
+        }
+        .custom-image-upload {
+            cursor: pointer;
+        }
+        .user-dashboard-form-submit {
+            display: block;
+            width: 100%;
+            padding: 8px 0;
+            margin: 1rem 0;
+        }
+    }
 }

@@ -1,6 +1,19 @@
-.post-featured-image {
-    img {
-        width: 100%;
-        height: 450px;
+.single-post-page {
+    .postcontent-and-comments {
+        .post-featured-image {
+            img {
+                width: 100%;
+                height: 450px;
+            }
+        }
+        h2 {
+            margin: 1rem 0 0 0;
+        }
+        p {
+            margin: 0;
+        }
+        .blogs-page-comments-section {
+            margin: 4.5rem 0 2rem 0;
+        }
     }
 }

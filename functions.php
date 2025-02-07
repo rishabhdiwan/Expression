@@ -233,4 +233,4 @@ function redirect_non_admin_users() {
         exit;
     }
 }
-add_action('init', 'redirect_non_admin_users');
+add_action('admin_init', 'redirect_non_admin_users');
